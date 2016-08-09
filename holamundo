@@ -1,0 +1,17 @@
+nombre: juan pablo urioste joffre
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+
+
+using namespace std;
+
+
+int main()
+{
+	cout<<"Hola Mundo \n"; 
+	cout<<"Soy Juan Pablo Urioste Joffre";
+	getch();
+	return 0;
+}
