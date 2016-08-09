@@ -1,0 +1,53 @@
+// gjkgjk.cpp : Defines the entry point for the console application.
+// nombre: JUAN PABLO URIOSTE JOFFRE
+
+#include "stdafx.h"
+#include "conio.h"
+#include <iostream>
+
+using namespace std;
+
+void main()
+{	int opcion;
+	float a,b,c;
+	cout<<"ingrese su numero"<<endl;
+	cin>>a;
+	cout<<"ingrese su otro numero"<<endl;
+	cin>>b;
+	do{
+	cout<<" ------------MENU---------------"<<endl;
+	cout<<"1-SUMA "<<endl;
+	cout<<"2.-RESTA "<<endl;
+	cout<<"3.-DIVISION "<<endl;
+	cout<<"4.-MULTIPLICACION "<<endl;
+	cout<<"0.-SALIR "<<endl;
+	cin>> opcion;
+
+	switch(opcion)
+	{	
+	case 1: cout<<"suma"<<endl;
+			c = a + b;
+			cout<<"su suma es:"<<c<<endl; 
+			break;
+
+	case 2: cout<<"resta"<<endl;
+			c = a - b;
+			cout<<"su resta es:"<<c<<endl; 
+			break;
+	case 3: cout<<"multiplicacion"<<endl;
+			c = a * b;
+			cout<<"su multiplicacion es:"<<c<<endl; 
+			break;
+	case 4: cout<<"division"<<endl;
+			c = a / b;
+			cout<<"su divison es:"<<c<<endl; 
+			break;
+	case 0: cout<<"chaufa"<<endl;
+			break;
+	default : cout<<"ERROR DE OPCION"<<endl;
+			  break;
+	}
+	}while(opcion!=0);
+	getch();
+}
+
