@@ -1,0 +1,30 @@
+//nombre: juan pablo urioste joffre
+
+#include "stdafx.h"
+#include "conio.h"
+#include <iostream>
+
+using namespace std;
+
+void main()
+{
+	int n,i;
+	float precio,cantidad,total=0;
+
+	cout<<"ingrese el numero de variedad de productos que compro"<<endl;
+	cin>>n;
+
+	for(i=0;i<n;i++)
+	{
+		cout<<"ingrese cuanta cantidad de dicho producto compro"<<endl;
+		cin>>cantidad;
+		cout<<"ingrese el precio de su producto"<<endl;
+		cin>>precio;
+
+	total = cantidad * precio+total;
+	}
+
+		
+	cout<<"total: "<< total;
+	getch();
+}
