@@ -1,0 +1,41 @@
+//nombre: juan pablo urioste joffre
+
+#include "stdafx.h"
+#include "conio.h"
+#include <iostream>
+
+using namespace std;
+
+void main()
+{
+	int n,i;
+	float descuento,salarioneto,salariobruto;
+
+	cout<<"ingrese el numero de empleados"<<endl;
+	cin>>n;
+
+	for(i=0;i<n;i++)
+	{
+		cout<<"ingrese el salario bruto"<<endl;
+		cin>>salariobruto;
+
+		if(salariobruto>1805){
+		cout<<"ingrese el procentaje del descuento"<<endl;
+		cin>> descuento;
+
+		descuento = descuento/100;
+		salarioneto = (salariobruto)-(salariobruto*descuento);
+
+	cout<<"el salario neto del empleado: "<< salarioneto;
+	cout<<""<<endl;
+		}
+			else
+			{ cout<<"salario ilegal"<<endl;
+			}
+	}
+
+	
+
+
+	getch();
+}
