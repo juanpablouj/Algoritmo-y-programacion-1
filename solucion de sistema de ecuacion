@@ -1,0 +1,36 @@
+//nombre: juan pablo urioste joffre
+
+#include "stdafx.h"
+#include "conio.h"
+#include <iostream>
+
+using namespace std;
+
+void main()
+{
+	int a,b,c,d,e,f,x,y;
+
+	cout<<"ingrese su constante de X de la primera ecuacion"<<endl;
+	cin>>a;
+	cout<<"ingrese su constante de Y de la primera ecuacion"<<endl;
+	cin>>b;
+	cout<<"ingrese la valor independiente de la primera ecuacion"<<endl;
+	cin>>c;
+	cout<<"ingrese su constante de X de la segunda ecuacion"<<endl;
+	cin>>d;
+	cout<<"ingrese su constante de Y de la segunda ecuacion"<<endl;
+	cin>>e;
+	cout<<"ingrese la valor independiente de la segunda ecuacion"<<endl;
+	cin>>f;
+
+	//por determinantes (revisar algebra lineal)
+	x = ((c*e) - (f*b))/((a*e)-(d*b));
+
+	y=	((a*f)-(c*d))/((a*e)-(d*b));
+
+	cout<<"sus valores de la ecuacion son: "<<a<<"x+"<<b<<"y="<<c<<endl;
+	cout<<"sus valores de la ecuacion son: "<<d<<"x+"<<e<<"y="<<f<<endl;
+	cout<<"su valor de X es:"<< x<<endl;
+	cout<<"su valor de Y es:"<< y<<endl;
+	getch();
+}
