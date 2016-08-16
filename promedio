@@ -1,0 +1,24 @@
+//nombre: Juan Pablo Urioste Joffre
+
+#include "stdafx.h"
+#include "conio.h"
+#include <iostream>
+
+using namespace std;
+
+void main()
+{
+	int a,b,c;
+	float d;
+
+	cout<<"ingrese sus tres numeros enteros por favor: "<<endl;
+	cin>>a;
+	cin>>b;
+	cin>>c;
+
+	d = (a+b+c)/3;
+
+	cout<<"su numero entero es "<<d<<endl;
+
+	getch();
+}
