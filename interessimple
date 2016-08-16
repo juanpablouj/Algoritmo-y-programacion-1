@@ -1,0 +1,27 @@
+//nombre: juan pablo urioste joffre
+
+#include "stdafx.h"
+#include "conio.h"
+#include <iostream>
+
+using namespace std;
+
+void main()
+{
+	float capital,tasa,dias,tasa1,interes;
+
+	cout<<"ingrese su capital"<<endl;
+	cin>>capital;
+	cout<<"ingrese la tasa de interes"<<endl;
+	cin>>tasa;
+	cout<<"ingrese los dias"<<endl;
+	cin>>dias;
+
+	tasa1 = tasa/100;
+	
+	interes  = (tasa1*capital*dias)/360;
+
+	cout<<"su interes es: "<< interes<<endl;
+
+	getch();
+}
