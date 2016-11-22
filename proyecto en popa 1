@@ -1,0 +1,221 @@
+// proyecto mandarina.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include <stdio.h>
+#include <string>
+#include <stdlib.h>
+
+using namespace std;
+
+//ESTRUCTURAS
+struct reggastronomia
+{
+	string nombre;
+	
+	string direccion;
+
+	char telefono;
+
+	string email;
+
+	string tipo; // tipo de comida
+
+};
+
+
+struct regmecanico
+{
+	string nombre;
+
+	string direccion;
+
+	char telefono;
+
+	string email;
+
+};
+
+
+struct regfarmacia
+
+{
+	string nombre;
+
+	string direccion;
+
+	char telefono;
+
+	string email;
+
+};
+
+//GASTRONOMIA
+void menugastronomia()
+{
+	int opcion;
+
+	cout<<"----MENU DE GASTRONOMIA----"<<endl;
+	cout<<"1.- CREAR ARCHIVO RESTAURANTE"<<endl;
+	cout<<"2.- MOSTRAR ARCHIVO RESTAURANTE"<<endl;
+	cout<<"3.- AÑADIR RESTAURANTES"<<endl;
+	cout<<"4.- ELIMINAR RESTAURANTES"<<endl;
+	cout<<"0.- SALIR"<<endl;
+	cin>>opcion;
+	do{
+		switch(opcion)
+		{
+			case 1:		
+					break;
+	
+	
+			case 2:
+		
+					break;
+	
+	
+			case 3: 
+					break;
+
+
+			case 4:
+					break;
+
+
+			case 0:
+			
+					break;
+
+	default: cout<<"opcion invalida"<<endl;
+	}
+	}while(opcion!=0);
+
+}
+
+
+
+
+//MECANICA
+void menumecanica()
+{
+	int opcion;
+
+	cout<<"----MENU DE MECANICA----"<<endl;
+	cout<<"1.- CREAR ARCHIVO MECANICA"<<endl;
+	cout<<"2.- MOSTRAR ARCHIVO MECANICA"<<endl;
+	cout<<"3.- AÑADIR MECANICA"<<endl;
+	cout<<"4.- ELIMINAR MECANICA"<<endl;
+	cout<<"0.- SALIR"<<endl;
+	cin>>opcion;
+	do{
+		switch(opcion)
+		{
+			case 1:		
+					break;
+	
+	
+			case 2:
+		
+					break;
+	
+	
+			case 3: 
+					break;
+
+
+			case 4:
+					break;
+
+
+			case 0:
+			
+					break;
+
+	default: cout<<"opcion invalida"<<endl;
+	}
+	}while(opcion!=0);
+
+}
+
+
+//FARMACIAS
+void menufarmacia()
+{
+	int opcion;
+
+	cout<<"----MENU DE MECANICA----"<<endl;
+	cout<<"1.- CREAR ARCHIVO FARMACIA"<<endl;
+	cout<<"2.- MOSTRAR ARCHIVO FARMACIA"<<endl;
+	cout<<"3.- AÑADIR FARMACIA"<<endl;
+	cout<<"4.- ELIMINAR FARMACIA"<<endl;
+	cout<<"0.- SALIR"<<endl;
+	cin>>opcion;
+	do{
+		switch(opcion)
+		{
+			case 1:		
+					break;
+	
+	
+			case 2:
+		
+					break;
+	
+	
+			case 3: 
+					break;
+
+
+			case 4:
+					break;
+
+
+			case 0:
+			
+					break;
+
+	default: cout<<"opcion invalida"<<endl;
+	}
+	}while(opcion!=0);
+
+}
+
+//PRINCIPAL
+int main()
+{
+	int opcion;
+
+	cout<<"--------BIENVENIDO A SERVI-AGENDA--------"<<endl;
+	cout<<"1.-Servicio de Gastronomia"<<endl;
+	cout<<"2.-Servicio de Mecanica en gral"<<endl;
+	cout<<"3.-Servicio de Farmacias"<<endl;
+	cout<<"0.- SALIR"<<endl;
+	cin>>opcion;
+	do{
+
+	switch(opcion)
+	{
+	case 1: 
+			break;
+	
+	case 2:
+		
+			break;
+	
+	case 3: 
+			break;
+
+	case 0:
+			break;
+
+	default: cout<<"opcion invalida"<<endl;
+	}while(opcion!=0);
+
+
+	}
+
+
+	getch();
+}
