@@ -1,0 +1,1612 @@
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include <stdio.h>
+#include <string>
+#include <stdlib.h>
+
+using namespace std;
+
+//ESTRUCTURAS
+struct reggastronomia
+{
+	string nombre;
+	
+	string direccion;
+
+	char telefono[11];
+
+	string email;
+
+	string tipo; // tipo de comida
+
+	char estado;
+};
+
+struct regmecanico
+{
+	string nombre;
+
+	string direccion;
+
+	char telefono[11];
+
+	string email;
+
+	char estado;
+};
+
+struct regfarmacia
+
+{
+	string nombre;
+
+	string direccion;
+
+	char telefono[11];
+
+	string email;
+
+	char estado;
+};
+
+struct regconductordesignado
+{
+	string nombre;
+
+	string email;
+
+	char telefono[11];
+
+	char estado;
+};
+
+struct regtransportepublico
+{
+	string tipo; //tipo de transporte
+
+	string nombre; //en caso de servicio de radio moviles
+
+	char telefono[11]; // en caso de servicio de radio moviles
+
+	string zona;  // en caso de servicio de los micros
+
+	char estado;
+};
+
+struct regusuario
+{
+ string nombre;
+
+ double codigo;
+
+ char telefono[11];
+
+ string email;
+
+ string apellido;
+
+ string password; // por si las moscas 
+
+ char estado;
+
+};
+
+　
+　
+//GASTRONOMIA
+
+void creararchivogastronomia(char nombrearchivo[])
+{ FILE *ptr;
+
+	ptr = fopen("gastronomia.dat","wb");
+
+	fclose(ptr);
+	
+}
+
+void añadirgastronomia()
+{ FILE *ptr;
+ reggastronomia gas;
+			
+			cout<<"ingrese el nombre del restaurante"<<endl;
+			getline(cin,gas.nombre);
+		
+			cout<<"ingrese la direccion del restaurante"<<endl;
+			getline(cin,gas.direccion);
+			cout<<"ingrese el telefono"<<endl;
+			cin>> gas.telefono;
+			cout<<"ingrese el tipo de restaurante que es"<<endl;
+			getline(cin,gas.tipo);
+			cout<<"ingrese el email del restaurante"<<endl;
+			getline(cin,gas.email);
+
+			gas.estado = 'S';
+
+　
+			ptr = fopen("gastronomia.dat","ab");
+
+			fwrite (&gas, sizeof(gas),1,ptr);
+
+			fclose(ptr);
+
+}	
+
+void reportegastronomia()
+{	FILE *ptr;
+ reggastronomia gas;
+ int c=0;
+
+	ptr = fopen("gastronomia.dat","rb");
+		
+		if(ptr!=NULL)
+		{
+			cout<<"\n\n======================================================================";
+			cout<<"\n         *********** REPORTE DE LOS GASTRONOMICOS **************   ";
+			cout<<"\n------------------------------------------------------------------------";
+			cout<<"\n NroRegistro	Nombre      Telefono       direccion		tipo	Email";
+			cout<<"\n------------------------------------------------------------------------";
+			fread(&gas,sizeof(gas),1,ptr);
+			while(feof(ptr)== false)
+				{	
+					c++;
+					if(gas.estado=='S')
+					{
+						cout<<endl<<"\t"<<c<<"\t"<<gas.nombre<<"\t"<<gas.telefono<<"\t\t"<<gas.direccion<<"\t"<<gas.tipo<<"\t"<<gas.email;
+					}
+					fread(&gas,sizeof(gas),1,ptr);
+			}
+	
+		fclose(ptr);
+		cout<<"\n====================================================================";
+		}
+		
+		else{
+			cout<<"archivo inexistente"<<endl;
+		
+		}
+}
+
+void eliminargastronomia()
+{	FILE *ptr;
+	reggastronomia gas;
+	char op;
+	int nro;
+
+	ptr = fopen("gastronomia.dat","r+b");
+	do{
+	cout<<"ingrese el numero que desee eliminar"<<endl;
+	cin>> nro;
+	}while(nro<1);
+
+	if(ptr != NULL)
+	{
+		fseek(ptr,(nro-1)*sizeof(gas),SEEK_SET);
+		fread(&gas,sizeof(gas),1,ptr);
+		if(feof(ptr)!=NULL)
+		{
+			if(gas.estado== 'S')
+			{
+				cout<<endl<<"\t"<<"Nombre: "<<gas.nombre<<"		"<<"telefono: "<<"		"<<gas.telefono<<"		"<<"direccion: "<<gas.direccion<<"		"<<"tipo: "<<gas.tipo<<"		"<<"email: "<<gas.email;
+			do{
+				cout<< "\n Quiere eliminar este registro? \n Si --> S o  No --> N: ";
+				cin>>op;
+				}while((op!='s' && op!='n')&&(op!='S' && op!='N'));
+				if(op=='S'||op=='s'){
+					gas.estado='N';
+					cout<<"\n Registro eliminado. ";
+					fseek(ptr, (nro-1)*sizeof(gas),SEEK_SET);
+					fwrite(&gas,sizeof(gas),1,ptr);
+				}
+				else{
+					cout<<"este registro se elimino"<<endl;
+				}
+			}
+				else
+				{
+					cout<<"este registro no existe"<<endl;
+				}
+		}
+			else
+			{
+				cout<<"este archivo no existe"<<endl;
+				}
+	
+	}
+	fclose(ptr);
+	cout<<""<<endl;
+}
+
+void modificargastronomia()
+{	FILE *ptr;
+	reggastronomia gas;
+	int nro;
+	char op;
+
+	ptr = fopen("gastronomia.dat","r+b");
+		do{
+		cout<<"\n Ingrese el numero de registro que desea modificar: ";
+		cin>>nro;
+	}while(nro<1);
+
+		if(ptr!=NULL)
+		{
+			fseek(ptr,(nro-1)*sizeof(gas),SEEK_SET);
+			fread(&gas,sizeof(gas),1,ptr);
+			if(feof(ptr)== false)
+			{
+			if(gas.estado == 'S')
+			{
+					cout<<endl<<"\t"<<"Nombre: "<<gas.nombre<<"		"<<"telefono: "<<"		"<<gas.telefono<<"		"<<"direccion: "<<gas.direccion<<"		"<<"tipo: "<<gas.tipo<<"		"<<"email: "<<gas.email;
+			do{
+				cout<< "\n Quiere modificar este registro? \n Si --> S o  No --> N: ";
+				cin>>op;
+				}while((op!='s' && op!='n')&&(op!='S' && op!='N'));
+			
+				if(op=='S'||op=='s')
+				{
+					cout<<"ingrese el nombre del restaurante"<<endl;
+					getline(cin,gas.nombre);
+					cout<<"ingrese la direccion del restaurante"<<endl;
+					getline(cin,gas.direccion);
+					cout<<"ingrese el telefono"<<endl;
+					cin>> gas.telefono;
+					cout<<"ingrese el tipo de restaurante que es"<<endl;
+					getline(cin,gas.tipo);
+					cout<<"ingrese el email del restaurante"<<endl;
+					getline(cin,gas.email);
+					fseek(ptr, (nro-1)*sizeof(gas),SEEK_SET);
+					fwrite(&gas,sizeof(gas),1,ptr);
+				
+				}
+			}
+			else
+			{
+				cout<<"este registro ya fue eliminado"<<endl;
+			}
+
+			}
+		else
+		{
+			cout<<"este registro no existe"<<endl;
+			}
+		}
+		else{
+			cout<<"este archivo no existe"<<endl;
+		}
+
+		fclose(ptr);
+		cout<<" "<<endl;
+}
+
+void menugastronomia()
+{
+	int opcion;
+	 
+	system("cls");
+	
+	cout<<"----MENU DE GASTRONOMIA----"<<endl;
+	cout<<"1.- CREAR ARCHIVO RESTAURANTE"<<endl;
+	cout<<"2.- MOSTRAR ARCHIVO RESTAURANTE"<<endl;
+	cout<<"3.- AÑADIR RESTAURANTES"<<endl;
+	cout<<"4.- ELIMINAR RESTAURANTES"<<endl;
+	cout<<"5.- MODIFICAR RESTAURANTES"<<endl;
+	cout<<"0.- SALIR"<<endl;
+	cin>>opcion;
+		switch(opcion)
+		{
+			case 1:	creararchivogastronomia("gastronomia.dat");	
+					system("pause");
+					system("cls");
+					break;
+	
+	
+			case 2:	reportegastronomia();
+				system("pause");
+				system("cls");
+					break;
+	
+	
+			case 3: añadirgastronomia();
+				system("pause");
+				system("cls");
+					break;
+
+　
+			case 4:	eliminargastronomia();
+					system("pause");
+					system("cls");
+					break;
+
+			case 5: modificargastronomia();
+					system("pause");
+					system("cls");
+					break;
+
+　
+			case 0: cout<<"SALIR"<<endl;
+					system("pause");
+					system("cls");
+					break;
+
+	default: cout<<"opcion invalida"<<endl;
+				system("cls");
+	}
+	system("cls");
+}
+
+　
+　
+//MECANICA
+
+void creararchivomecanico(char nombrearchivo[])
+{ FILE *ptr;
+
+	ptr = fopen("mecanica.dat","wb");
+
+	fclose(ptr);
+
+}
+
+void añadirmecanica()
+{ FILE *ptr;
+ regmecanico mec;
+	
+			cout<<"ingrese el nombre del mecanico"<<endl;
+			getline(cin,mec.nombre);
+			cout<<"ingrese la direccion del mecanico"<<endl;
+			getline(cin,mec.direccion);
+			cout<<"ingrese el telefono"<<endl;
+			cin>> mec.telefono;
+			cout<<"ingrese el email del restaurante"<<endl;
+			getline(cin,mec.email);
+
+			mec.estado = 'S';
+
+　
+			ptr = fopen("mecanica.dat","ab");
+
+			fwrite (&mec, sizeof(mec),1,ptr);
+
+			fclose(ptr);
+
+}
+
+void reportemecanica()
+{	FILE *ptr;
+ regmecanico mec;
+ int c=0;
+
+	ptr = fopen("mecanica.dat","rb");
+		
+		if(ptr!=NULL)
+		{
+			cout<<"\n\n======================================================================";
+			cout<<"\n         *********** REPORTE DE LOS MECANICOS**************   ";
+			cout<<"\n------------------------------------------------------------------------";
+			cout<<"\n NroRegistro	Nombre      Telefono       direccion	Email";
+			cout<<"\n------------------------------------------------------------------------";
+			fread(&mec,sizeof(mec),1,ptr);
+			while(feof(ptr)== false)
+				{	
+					c++;
+					if(mec.estado=='S')
+					{
+						cout<<endl<<"\t"<<c<<"\t"<<mec.nombre<<"\t"<<mec.telefono<<"\t\t"<<mec.direccion<<"\t"<<"\t"<<mec.email;
+					}
+					fread(&mec,sizeof(mec),1,ptr);
+			}
+	
+		fclose(ptr);
+		cout<<"\n====================================================================";
+		}
+		
+		else{
+			cout<<"archivo inexistente"<<endl;
+		
+		}
+}
+
+void eliminarmecanica()
+{	FILE *ptr;
+	regmecanico mec;
+	char op;
+	int nro;
+
+	ptr = fopen("mecanica.dat","r+b");
+	do{
+	cout<<"ingrese el numero que desee eliminar"<<endl;
+	cin>> nro;
+	}while(nro<1);
+
+	if(ptr != NULL)
+	{
+		fseek(ptr,(nro-1)*sizeof(mec),SEEK_SET);
+		fread(&mec,sizeof(mec),1,ptr);
+		if(feof(ptr)!=NULL)
+		{
+			if(mec.estado== 'S')
+			{
+				cout<<endl<<"\t"<<"Nombre: "<<mec.nombre<<"		"<<"telefono: "<<"		"<<mec.telefono<<"		"<<"direccion: "<<mec.direccion<<"		"<<"email: "<<mec.email;
+			do{
+				cout<< "\n Quiere eliminar este registro? \n Si --> S o  No --> N: ";
+				cin>>op;
+				}while((op!='s' && op!='n')&&(op!='S' && op!='N'));
+				if(op=='S'||op=='s'){
+					mec.estado='N';
+					cout<<"\n Registro eliminado. ";
+					fseek(ptr, (nro-1)*sizeof(mec),SEEK_SET);
+					fwrite(&mec,sizeof(mec),1,ptr);
+				}
+				else{
+					cout<<"este registro se elimino"<<endl;
+				}
+			}
+				else
+				{
+					cout<<"este registro no existe"<<endl;
+				}
+		}
+			else
+			{
+				cout<<"este archivo no existe"<<endl;
+				}
+	
+	}
+	fclose(ptr);
+	cout<<""<<endl;
+}
+
+void modificarmecanica()
+{	FILE *ptr;
+	regmecanico mec;
+	int nro;
+	char op;
+
+	ptr = fopen("mecanica.dat","r+b");
+		do{
+		cout<<"\n Ingrese el numero de registro que desea modificar: ";
+		cin>>nro;
+	}while(nro<1);
+	
+		if(ptr!=NULL)
+		{
+			fseek(ptr,(nro-1)*sizeof(mec),SEEK_SET);
+			fread(&mec,sizeof(mec),1,ptr);
+			if(feof(ptr)== false)
+			{
+			if(mec.estado == 'S')
+			{
+					cout<<endl<<"\t"<<"Nombre: "<<mec.nombre<<"		"<<"telefono: "<<"		"<<mec.telefono<<"		"<<"direccion: "<<mec.direccion<<"		"<<"email: "<<mec.email;
+			do{
+				cout<< "\n Quiere modificar este registro? \n Si --> S o  No --> N: ";
+				cin>>op;
+				}while((op!='s' && op!='n')&&(op!='S' && op!='N'));
+			
+				if(op=='S'||op=='s')
+				{
+						cout<<"ingrese el nombre del mecanico"<<endl;
+						getline(cin,mec.nombre);
+						cout<<"ingrese la direccion del mecanico"<<endl;
+						getline(cin,mec.direccion);
+						cout<<"ingrese el telefono"<<endl;
+						cin>> mec.telefono;
+						cout<<"ingrese el email del restaurante"<<endl;
+						getline(cin,mec.email);
+
+						fseek(ptr, (nro-1)*sizeof(mec),SEEK_SET);
+						fwrite(&mec,sizeof(mec),1,ptr);
+				
+				}
+			}
+			else
+			{
+				cout<<"este registro ya fue eliminado"<<endl;
+			}
+
+			}
+		else
+		{
+			cout<<"este registro no existe"<<endl;
+			}
+		}
+		else{
+			cout<<"este archivo no existe"<<endl;
+		}
+
+		fclose(ptr);
+		cout<<" "<<endl;
+}
+
+void menumecanica()
+{
+	int opcion;
+
+	system("cls");
+
+	cout<<"----MENU DE MECANICA----"<<endl;
+	cout<<"1.- CREAR ARCHIVO MECANICA"<<endl;
+	cout<<"2.- MOSTRAR ARCHIVO MECANICA"<<endl;
+	cout<<"3.- AÑADIR MECANICA"<<endl;
+	cout<<"4.- ELIMINAR MECANICA"<<endl;
+	cout<<"5.- MODIFICAR MECANICA"<<endl;
+	cout<<"0.- SALIR"<<endl;
+	cin>>opcion;
+	do{
+		switch(opcion)
+		{
+			case 1:	creararchivomecanico("mecanico.dat");	
+					break;
+	
+	
+			case 2: reportemecanica();
+					system("pause");
+					system("cls");
+					break;
+	
+	
+			case 3: añadirmecanica();
+				system("pause");
+				system("cls");
+					break;
+
+　
+			case 4:	eliminarmecanica();
+					system("pause");
+					system("cls");
+					break;
+
+			case 5: modificarmecanica();
+					system("pause");
+					system("cls");
+					break;
+
+　
+			case 0: cout<<"SALIR"<<endl;
+					system("pause");
+					system("cls");
+					break;
+
+	default: cout<<"opcion invalida"<<endl;
+				system("cls");
+		}
+	}while(opcion!=0);
+	system("cls");
+}
+
+　
+　
+//FARMACIAS
+
+void creararchivofarmacia(char nombrearchivo[])
+{ FILE *ptr;
+
+	ptr = fopen("farmacia.dat","wb");
+
+	fclose(ptr);
+
+}
+
+void añadirfarmacia()
+{ FILE *ptr;
+ regfarmacia far;
+	
+			cout<<"ingrese el nombre de la famracia"<<endl;
+			getline(cin,far.nombre);
+			cout<<"ingrese la direccion de la farmacia"<<endl;
+			getline(cin,far.direccion);
+			cout<<"ingrese el telefono"<<endl;
+			cin>> far.telefono;
+			cout<<"ingrese el email del la farmacia"<<endl;
+			getline(cin,far.email);
+
+			far.estado = 'S';
+
+　
+			ptr = fopen("farmacia.dat","ab");
+
+			fwrite (&far, sizeof(far),1,ptr);
+
+			fclose(ptr);
+
+}
+
+void reportefarmacia()
+{	FILE *ptr;
+ regfarmacia far;
+ int c=0;
+
+	ptr = fopen("farmacia.dat","rb");
+		
+		if(ptr!=NULL)
+		{
+			cout<<"\n\n======================================================================";
+			cout<<"\n         *********** REPORTE DE LAS FARMACIAS**************   ";
+			cout<<"\n------------------------------------------------------------------------";
+			cout<<"\n NroRegistro	Nombre      Telefono       direccion	Email";
+			cout<<"\n------------------------------------------------------------------------";
+			fread(&far,sizeof(far),1,ptr);
+			while(feof(ptr)== false)
+				{	
+					c++;
+					if(far.estado=='S')
+					{
+						cout<<endl<<"\t"<<c<<"\t"<<far.nombre<<"\t"<<far.telefono<<"\t\t"<<far.direccion<<"\t"<<"\t"<<far.email;
+					}
+					fread(&far,sizeof(far),1,ptr);
+			}
+	
+		fclose(ptr);
+		cout<<"\n====================================================================";
+		}
+		
+		else{
+			cout<<"archivo inexistente"<<endl;
+		
+		}
+}
+
+void eliminarfarmacia()
+{	FILE *ptr;
+	regfarmacia far;
+	char op;
+	int nro;
+
+	ptr = fopen("farmacia.dat","r+b");
+	do{
+	cout<<"ingrese el numero que desee eliminar"<<endl;
+	cin>> nro;
+	}while(nro<1);
+
+	if(ptr != NULL)
+	{
+		fseek(ptr,(nro-1)*sizeof(far),SEEK_SET);
+		fread(&far,sizeof(far),1,ptr);
+		if(feof(ptr)!=NULL)
+		{
+			if(far.estado== 'S')
+			{
+				cout<<endl<<"Nombre: "<<far.nombre<<"		"<<"telefono: "<<far.telefono<<"		" <<"direccion: "<<far.direccion<<"		"<<"email: "<<far.email;
+			do{
+				cout<< "\n Quiere eliminar este registro? \n Si --> S o  No --> N: ";
+				cin>>op;
+				}while((op!='s' && op!='n')&&(op!='S' && op!='N'));
+				if(op=='S'||op=='s'){
+					far.estado='N';
+					cout<<"\n Registro eliminado. ";
+					fseek(ptr, (nro-1)*sizeof(far),SEEK_SET);
+					fwrite(&far,sizeof(far),1,ptr);
+				}
+				else{
+					cout<<"este registro se elimino"<<endl;
+				}
+			}
+				else
+				{
+					cout<<"este registro no existe"<<endl;
+				}
+		}
+			else
+			{
+				cout<<"este archivo no existe"<<endl;
+				}
+	
+	}
+	fclose(ptr);
+	cout<<""<<endl;
+}
+
+void modificarfarmacia()
+{	FILE *ptr;
+	regfarmacia far;
+	int nro;
+	char op;
+
+	ptr = fopen("mecanica.dat","r+b");
+		do{
+		cout<<"\n Ingrese el numero de registro que desea modificar: ";
+		cin>>nro;
+	}while(nro<1);
+		if(ptr!=NULL)
+		{
+			fseek(ptr,(nro-1)*sizeof(far),SEEK_SET);
+			fread(&far,sizeof(far),1,ptr);
+			if(feof(ptr)== false)
+			{
+			if(far.estado == 'S')
+			{
+					cout<<endl<<"\t"<<"Nombre: "<<far.nombre<<"		"<<"telefono: "<<"		"<<far.telefono<<"		"<<"direccion: "<<far.direccion<<"		"<<"email: "<<far.email;
+			do{
+				cout<< "\n Quiere modificar este registro? \n Si --> S o  No --> N: ";
+				cin>>op;
+				}while((op!='s' && op!='n')&&(op!='S' && op!='N'));
+			
+				if(op=='S'||op=='s')
+				{
+						
+					cout<<"ingrese el nombre de la famracia"<<endl;
+					getline(cin,far.nombre);
+					cout<<"ingrese la direccion de la farmacia"<<endl;
+					getline(cin,far.direccion);
+					cout<<"ingrese el telefono"<<endl;
+					cin>> far.telefono;
+					cout<<"ingrese el email del la farmacia"<<endl;
+					getline(cin,far.email);
+
+						fseek(ptr, (nro-1)*sizeof(far),SEEK_SET);
+						fwrite(&far,sizeof(far),1,ptr);
+				
+				}
+			}
+			else
+			{
+				cout<<"este registro ya fue eliminado"<<endl;
+			}
+
+			}
+		else
+		{
+			cout<<"este registro no existe"<<endl;
+			}
+		}
+		else{
+			cout<<"este archivo no existe"<<endl;
+		}
+
+		fclose(ptr);
+		cout<<" "<<endl;
+}
+
+void menufarmacia()
+{
+	int opcion;
+	 
+	system("cls");
+
+	cout<<"----MENU DE FARMACIA----"<<endl;
+	cout<<"1.- CREAR ARCHIVO FARMACIA"<<endl;
+	cout<<"2.- MOSTRAR ARCHIVO FARMACIA"<<endl;
+	cout<<"3.- AÑADIR FARMACIA"<<endl;
+	cout<<"4.- ELIMINAR FARMACIA"<<endl;
+	cout<<"5.- MODIFICAR FARMACIA"<<endl;
+	cout<<"0.- SALIR"<<endl;
+	cin>>opcion;
+	do{
+		switch(opcion)
+		{
+			case 1:	creararchivofarmacia("farmacia.dat");	
+					system("pause");
+					system("cls");	
+					break;
+	
+	
+			case 2:	reportefarmacia();
+					system("pause");
+					system("cls");
+					break;
+	
+	
+			case 3: añadirfarmacia();
+					system("pause");
+					system("cls");
+					break;
+
+　
+			case 4:	eliminarfarmacia();
+					system("pause");
+					system("cls");
+					break;
+
+			
+			case 5: modificarfarmacia();
+					system("pause");
+					system("cls");
+					break;
+
+			case 0: cout<<"SALIR"<<endl;
+					system("pause");
+					system("cls");
+					break;
+
+	default: cout<<"opcion invalida"<<endl;	
+				system("cls");
+	}
+	}while(opcion!=0);
+	system("cls");
+}
+
+　
+　
+//CONDUCTOR DESIGNADO
+
+void creararchivoconductordesignado(char nombrearchivo[])
+{ FILE *ptr;
+
+	ptr = fopen("conductordesignado.dat","wb");
+
+	fclose(ptr);
+
+}
+
+void añadirconductordesignado()
+{ FILE *ptr;
+ regconductordesignado cond;
+	
+			cout<<"ingrese el nombre de la empresa de conductor designado"<<endl;
+			getline(cin,cond.nombre);
+			cout<<"ingrese el telefono"<<endl;
+			cin>> cond.telefono;
+			cout<<"ingrese el email del la empresa"<<endl;
+			getline(cin,cond.email);
+
+			cond.estado = 'S';
+
+　
+			ptr = fopen("conductordesignado.dat","ab");
+
+			fwrite (&cond, sizeof(cond),1,ptr);
+
+			fclose(ptr);
+
+}
+
+void reporteconductordesignado()
+{	FILE *ptr;
+ regconductordesignado cond;
+ int c=0;
+
+	ptr = fopen("conductordesignado.dat","rb");
+		
+		if(ptr!=NULL)
+		{
+			cout<<"\n\n======================================================================";
+			cout<<"\n         *********** REPORTE DE CONDUCTORDESIGNADO**************   ";
+			cout<<"\n------------------------------------------------------------------------";
+			cout<<"\n NroRegistro	Nombre      Telefono   	Email";
+			cout<<"\n------------------------------------------------------------------------";
+			fread(&cond,sizeof(cond),1,ptr);
+			while(feof(ptr)== false)
+				{	
+					c++;
+					if(cond.estado=='S')
+					{
+						cout<<endl<<"\t"<<c<<"\t"<<cond.nombre<<"\t"<<cond.telefono<<"\t"<<"\t"<<cond.email;
+					}
+					fread(&cond,sizeof(cond),1,ptr);
+			}
+	
+		fclose(ptr);
+		cout<<"\n====================================================================";
+		}
+		
+		else{
+			cout<<"archivo inexistente"<<endl;
+		
+		}
+}
+
+void eliminarconductordesignado()
+{	FILE *ptr;
+	regconductordesignado cond;
+	char op;
+	int nro;
+
+	ptr = fopen("conductordesignado.dat","r+b");
+	do{
+	cout<<"ingrese el numero que desee eliminar"<<endl;
+	cin>> nro;
+	}while(nro<1);
+
+	if(ptr != NULL)
+	{
+		fseek(ptr,(nro-1)*sizeof(cond),SEEK_SET);
+		fread(&cond,sizeof(cond),1,ptr);
+		if(feof(ptr)!=NULL)
+		{
+			if(cond.estado== 'S')
+			{
+				cout<<endl<<"\t"<<"Nombre: "<<cond.nombre<<"	"<<"telefono: "<<cond.telefono<<"		"<<"		"<<"email: "<<cond.email;
+			do{
+				cout<< "\n Quiere eliminar este registro? \n Si --> S o  No --> N: ";
+				cin>>op;
+				}while((op!='s' && op!='n')&&(op!='S' && op!='N'));
+				if(op=='S'||op=='s'){
+					cond.estado='N';
+					cout<<"\n Registro eliminado. ";
+					fseek(ptr, (nro-1)*sizeof(cond),SEEK_SET);
+					fwrite(&cond,sizeof(cond),1,ptr);
+				}
+				else{
+					cout<<"este registro se elimino"<<endl;
+				}
+			}
+				else
+				{
+					cout<<"este registro no existe"<<endl;
+				}
+		}
+			else
+			{
+				cout<<"este archivo no existe"<<endl;
+				}
+	
+	}
+	fclose(ptr);
+	cout<<""<<endl;
+}
+
+void modificarconductordesignado()
+{	FILE *ptr;
+	regconductordesignado cond;
+	int nro;
+	char op;
+
+	ptr = fopen("conductordesignado.dat","r+b");
+		do{
+		cout<<"\n Ingrese el numero de registro que desea modificar: ";
+		cin>>nro;
+	}while(nro<1);
+	
+		if(ptr!=NULL)
+		{
+			fseek(ptr,(nro-1)*sizeof(cond),SEEK_SET);
+			fread(&cond,sizeof(cond),1,ptr);
+			if(feof(ptr)== false)
+			{
+			if(cond.estado == 'S')
+			{
+					cout<<endl<<"\t"<<"Nombre: "<<cond.nombre<<"		"<<"telefono: "<<"		"<<cond.telefono<<"		"<<"email: "<<cond.email<<endl;
+			do{
+				cout<< "\n Quiere modificar este registro? \n Si --> S o  No --> N: ";
+				cin>>op;
+				}while((op!='s' && op!='n')&&(op!='S' && op!='N'));
+			
+				if(op=='S'||op=='s')
+				{
+						
+				cout<<"ingrese el nombre de la empresa de conductor designado"<<endl;
+				getline(cin,cond.nombre);
+				cout<<"ingrese el telefono"<<endl;
+				cin>> cond.telefono;
+				cout<<"ingrese el email del la empresa"<<endl;
+				getline(cin,cond.email);
+		
+
+				fseek(ptr, (nro-1)*sizeof(cond),SEEK_SET);
+				fwrite(&cond,sizeof(cond),1,ptr);
+				
+				}
+			}
+			else
+			{
+				cout<<"este registro ya fue eliminado"<<endl;
+			}
+
+			}
+		else
+		{
+			cout<<"este registro no existe"<<endl;
+			}
+		}
+		else{
+			cout<<"este archivo no existe"<<endl;
+		}
+
+		fclose(ptr);
+		cout<<" "<<endl;
+}
+
+void menuconductordesignado()
+{
+	int opcion;
+	
+	system("cls");
+
+	cout<<"----MENU DE CONDUCTOR DESIGNADO----"<<endl;
+	cout<<"1.- CREAR ARCHIVO CONDUCTOR DESIGNADO"<<endl;
+	cout<<"2.- MOSTRAR ARCHIVO CONDUCTOR DESIGNADO"<<endl;
+	cout<<"3.- AÑADIR CONDUCGTOR DESIGNADO"<<endl;
+	cout<<"4.- ELIMINAR DESIGNADO"<<endl;
+	cout<<"5.- MODIFICAR DESIGNADO"<<endl;
+	cout<<"0.- SALIR"<<endl;
+	cin>>opcion;
+	do{
+		switch(opcion)
+		{
+			case 1:	creararchivoconductordesignado("conductordesignado.dat");	
+					system("pause");
+					system("cls");
+					break;
+	
+	
+			case 2:	reporteconductordesignado();
+					system("pause");
+					system("cls");
+					break;
+	
+	
+			case 3: añadirconductordesignado();
+					system("pause");
+					system("cls");
+					break;
+
+　
+			case 4:	eliminarconductordesignado();
+					system("pause");
+					system("cls");
+					break;
+			
+			case 5: modificarconductordesignado();
+					system("pause");
+					system("cls");
+					break;
+
+　
+			case 0: cout<<"SALIR"<<endl;
+					system("cls");
+					break;
+
+	default: cout<<"opcion invalida"<<endl;
+	}
+	}while(opcion!=0);
+	 system("cls");
+}
+
+　
+　
+　
+//TRANSPORTE PUBLICO
+
+void creararchivotransporte(char nombrearchivo[])
+{ FILE *ptr;
+
+	ptr = fopen("transporte.dat","wb");
+
+	fclose(ptr);
+
+}
+
+void añadirtransporte()
+{ FILE *ptr;
+ regtransportepublico trans;
+	
+			cout<<"ingrese el nombre del transporte"<<endl;
+			getline(cin,trans.nombre);
+			cout<<"ingrese el tipo de transporte"<<endl;
+			getline(cin,trans.tipo);
+			cout<<"ingrese el telefono"<<endl;
+			cin>> trans.telefono;
+			cout<<"ingrese la zona por la que anda el transporte"<<endl;
+			getline(cin,trans.zona);
+
+			trans.estado = 'S';
+
+　
+			ptr = fopen("trasnporte.dat","ab");
+
+			fwrite (&trans, sizeof(trans),1,ptr);
+
+			fclose(ptr);
+
+}
+
+void reportetransporte()
+{	FILE *ptr;
+ regtransportepublico trans;
+ int c=0;
+
+	ptr = fopen("transporte.dat","rb");
+		
+		if(ptr!=NULL)
+		{
+			cout<<"\n\n======================================================================";
+			cout<<"\n         *********** REPORTE DE LOS TRANSPORTES PUBLICOS **************   ";
+			cout<<"\n------------------------------------------------------------------------";
+			cout<<"\n NroRegistro	Nombre      Telefono   	tipo	Zona";
+			cout<<"\n------------------------------------------------------------------------";
+			fread(&trans,sizeof(trans),1,ptr);
+			while(feof(ptr)== false)
+				{	
+					c++;
+					if(trans.estado=='S')
+					{
+						cout<<endl<<"\t"<<c<<"\t"<<trans.nombre<<"\t"<<trans.telefono<<"\t\t"<<trans.tipo<<"\t"<<trans.zona;
+					}
+					fread(&trans,sizeof(trans),1,ptr);
+			}
+	
+		fclose(ptr);
+		cout<<"\n====================================================================";
+		}
+		
+		else{
+			cout<<"archivo inexistente"<<endl;
+		
+		}
+}
+
+void eliminartransporte()
+{	FILE *ptr;
+	regtransportepublico trans;
+	char op;
+	int nro;
+
+	ptr = fopen("transportpublico.dat","r+b");
+	do{
+	cout<<"ingrese el numero que desee eliminar"<<endl;
+	cin>> nro;
+	}while(nro<1);
+
+	if(ptr != NULL)
+	{
+		fseek(ptr,(nro-1)*sizeof(trans),SEEK_SET);
+		fread(&trans,sizeof(trans),1,ptr);
+		if(feof(ptr)!=NULL)
+		{
+			if(trans.estado== 'S')
+			{
+				cout<<endl<<"\t"<<"Nombre: "<<trans.nombre<<"		"<<"telefono: "<<"		"<<trans.telefono<<"		"<<"tipo: "<<trans.tipo<<"		"<<"zona: "<<trans.zona<<endl;
+			do{
+				cout<< "\n Quiere eliminar este registro? \n Si --> S o  No --> N: ";
+				cin>>op;
+				}while((op!='s' && op!='n')&&(op!='S' && op!='N'));
+				if(op=='S'||op=='s'){
+					trans.estado='N';
+					cout<<"\n Registro eliminado. ";
+					fseek(ptr, (nro-1)*sizeof(trans),SEEK_SET);
+					fwrite(&trans,sizeof(trans),1,ptr);
+				}
+				else{
+					cout<<"este registro se elimino"<<endl;
+				}
+			}
+				else
+				{
+					cout<<"este registro no existe"<<endl;
+				}
+		}
+			else
+			{
+				cout<<"este archivo no existe"<<endl;
+				}
+	
+	}
+	fclose(ptr);
+	cout<<""<<endl;
+}
+
+void modificartransporte()
+{	FILE *ptr;
+	regtransportepublico trans;
+	int nro;
+	char op;
+
+	ptr = fopen("transportepublico.dat","r+b");
+		do{
+		cout<<"\n Ingrese el numero de registro que desea modificar: ";
+		cin>>nro;
+	}while(nro<1);
+		
+		if(ptr!=NULL)
+		{
+			fseek(ptr,(nro-1)*sizeof(trans),SEEK_SET);
+			fread(&trans,sizeof(trans),1,ptr);
+			if(feof(ptr)== false)
+			{
+			if(trans.estado == 'S')
+			{
+				cout<<endl<<"\t"<<"Nombre: "<<trans.nombre<<"		"<<"Telefono: "<<trans.telefono<<"		"<<"Tipo: "<<trans.tipo<<"		"<<"Zona: "<<trans.zona<<endl;
+			do{
+				cout<< "\n Quiere modificar este registro? \n Si --> S o  No --> N: ";
+				cin>>op;
+				}while((op!='s' && op!='n')&&(op!='S' && op!='N'));
+			
+				if(op=='S'||op=='s')
+				{
+			
+					cout<<"ingrese el nombre del transporte"<<endl;
+					getline(cin,trans.nombre);
+					cout<<"ingrese el tipo de transporte"<<endl;
+					getline(cin,trans.tipo);
+					cout<<"ingrese el telefono"<<endl;
+					cin>> trans.telefono;
+					cout<<"ingrese la zona por la que anda el transporte"<<endl;
+					getline(cin,trans.zona);
+
+					fseek(ptr, (nro-1)*sizeof(trans),SEEK_SET);
+					fwrite(&trans,sizeof(trans),1,ptr);
+				
+				}
+			}
+			else
+			{
+				cout<<"este registro ya fue eliminado"<<endl;
+			}
+
+			}
+		else
+		{
+			cout<<"este registro no existe"<<endl;
+			}
+		}
+		else{
+			cout<<"este archivo no existe"<<endl;
+		}
+
+		fclose(ptr);
+		cout<<" "<<endl;
+}
+
+void menutransportepublico()
+{
+	int opcion;
+	 
+	system("cls");
+
+	cout<<"----MENU DE TRANSPORTE PUBLICO----"<<endl;
+	cout<<"1.- CREAR ARCHIVO TRANSPORTE"<<endl;
+	cout<<"2.- MOSTRAR ARCHIVO TRANSPORTE"<<endl;
+	cout<<"3.- AÑADIR TRANSPORTE"<<endl;
+	cout<<"4.- ELIMINAR TRANSPORTE"<<endl;
+	cout<<"5.- MODIFICAR TRANSPORTE"<<endl;
+	cout<<"0.- SALIR"<<endl;
+	cin>>opcion;
+	do{
+		switch(opcion)
+		{
+			case 1:	creararchivotransporte("transporte.dat");
+					system("pause");
+					system("cls");
+					break;
+	
+	
+			case 2:	reportetransporte();
+					system("pause");
+					system("cls");
+					break;
+	
+	
+			case 3: añadirtransporte();
+					system("pause");
+					system("cls");
+					break;
+
+　
+			case 4:	eliminartransporte();
+					system("pause");
+					system("cls");
+					break;
+			
+			case 5: modificartransporte();
+					system("pause");
+					system("cls");
+					break;
+
+　
+			case 0: cout<<"SALIR"<<endl;
+				system("pause");
+				system("cls");
+					break;
+
+	default: cout<<"opcion invalida"<<endl;
+				system("cls");
+	}
+	}while(opcion!=0);
+	system("cls");
+}
+
+　
+　
+//USUARIO
+void creararchivousuario(char nombrearchivo[])
+{ FILE *ptr;
+
+	ptr = fopen("usuario.dat","wb");
+
+	fclose(ptr);
+
+}
+
+void añadirusuario()
+{ FILE *ptr;
+ regusuario us;
+	
+			cout<<"ingrese el nombre del usuario"<<endl;
+			getline(cin,us.nombre);
+			cout<<"ingrese el apellido del usuario"<<endl;
+			getline(cin,us.apellido);
+			cout<<"ingrese el telefono"<<endl;
+			cin>> us.telefono;
+			cout<<"ingrese el email del ususario"<<endl;
+			getline(cin, us.email);
+			cout<<"ingrese su password de usuario"<<endl;
+			getline(cin,us.password);
+			cout<<"ingrese su codigo de usuario"<<endl;
+			cin>> us.codigo;
+
+			us.estado = 'S';
+
+　
+			ptr = fopen("usuario.dat","ab");
+
+			fwrite (&us, sizeof(us),1,ptr);
+
+			fclose(ptr);
+
+}
+
+void reporteusuario()
+{	FILE *ptr;
+	regusuario us;
+	int c=0;
+
+	ptr = fopen("usuario.dat","rb");
+
+	if(ptr!=NULL)
+	{
+			cout<<"\n\n======================================================================";
+			cout<<"\n         *********** REPORTE DE LOS USUARIOS **************   ";
+			cout<<"\n------------------------------------------------------------------------";
+			cout<<"\n NroRegistro	Nombre    Apellido		Telefono   Codigo	email	";
+			cout<<"\n------------------------------------------------------------------------";
+			fread(&us,sizeof(us),1,ptr);
+			while(feof(ptr)== false)
+				{	
+					c++;
+					if(us.estado=='S')
+					{
+						cout<<endl<<"\t"<<c<<"\t"<<us.nombre<<"\t"<<us.apellido<<"\t\t"<<us.telefono<<"\t"<<us.codigo<<"\t"<<us.email;
+					}
+					fread(&us,sizeof(us),1,ptr);
+			}
+	
+		fclose(ptr);
+		cout<<"\n====================================================================";
+		}
+		
+		else{
+			cout<<"archivo inexistente"<<endl;
+		
+		}
+}
+
+void eliminarusuario()
+{	FILE *ptr;
+	regusuario us;
+	char op;
+	int nro;
+
+	ptr = fopen("usuario.dat","r+b");
+	do{
+	cout<<"ingrese el numero que desee eliminar"<<endl;
+	cin>> nro;
+	}while(nro<1);
+
+	if(ptr != NULL)
+	{
+		fseek(ptr,(nro-1)*sizeof(us),SEEK_SET);
+		fread(&us,sizeof(us),1,ptr);
+		if(feof(ptr)!=NULL)
+		{
+			if(us.estado== 'S')
+			{
+				cout<<endl<<"\t"<<"Nombre: "<<us.nombre<<"		"<<"apellido"<<us.apellido<<"		"<<"telefono: "<<us.telefono<<"		"<<"email: "<<us.email<<"		"<<"codigo: "<<us.codigo<<endl;
+			do{
+				cout<< "\n Quiere eliminar este registro? \n Si --> S o  No --> N: ";
+				cin>>op;
+				}while((op!='s' && op!='n')&&(op!='S' && op!='N'));
+				if(op=='S'||op=='s'){
+					us.estado='N';
+					cout<<"\n Registro eliminado. ";
+					fseek(ptr, (nro-1)*sizeof(us),SEEK_SET);
+					fwrite(&us,sizeof(us),1,ptr);
+				}
+				else{
+					cout<<"este registro se elimino"<<endl;
+				}
+			}
+				else
+				{
+					cout<<"este registro no existe"<<endl;
+				}
+		}
+			else
+			{
+				cout<<"este archivo no existe"<<endl;
+				}
+	
+	}
+	fclose(ptr);
+	cout<<""<<endl;
+}
+
+void modificarusuario()
+{	FILE *ptr;
+	regusuario us;
+	int nro;
+	char op;
+
+	ptr = fopen("usuario.dat","r+b");
+		do{
+		cout<<"\n Ingrese el numero de registro que desea modificar: ";
+		cin>>nro;
+	}while(nro<1);
+	
+		if(ptr!=NULL)
+		{
+			fseek(ptr,(nro-1)*sizeof(us),SEEK_SET);
+			fread(&us,sizeof(us),1,ptr);
+			if(feof(ptr)== false)
+			{
+			if(us.estado == 'S')
+			{
+				
+			do{
+				cout<<endl<<"\t"<<"Nombre: "<<us.nombre<<"		"<<"Apellido: "<<us.apellido<<"		"<<"Telefono: "<<us.telefono<<"			"<<"Codigo: "<<us.codigo<<"			"<<"email: "<<us.email<<endl;
+				cout<< "\n Quiere modificar este registro? \n Si --> S o  No --> N: ";
+				cin>>op;
+				}while((op!='s' && op!='n')&&(op!='S' && op!='N'));
+			
+				if(op=='S'||op=='s')
+				{
+			
+					cout<<"ingrese el nombre del usuario"<<endl;
+					getline(cin,us.nombre);
+					cout<<"ingrese el apellido del usuario"<<endl;
+					getline(cin,us.apellido);
+					cout<<"ingrese el telefono"<<endl;
+					cin>> us.telefono;
+					cout<<"ingrese el email del ususario"<<endl;
+					getline(cin, us.email);
+					cout<<"ingrese su password de usuario"<<endl;
+					getline(cin,us.password);
+					cout<<"ingrese su codigo de usuario"<<endl;
+					cin>> us.codigo;
+
+					fseek(ptr, (nro-1)*sizeof(us),SEEK_SET);
+					fwrite(&us,sizeof(us),1,ptr);
+				
+				}
+			}
+			else
+			{
+				cout<<"este registro ya fue eliminado"<<endl;
+			}
+
+			}
+		else
+		{
+			cout<<"este registro no existe"<<endl;
+			}
+		}
+		else{
+			cout<<"este archivo no existe"<<endl;
+		}
+
+		fclose(ptr);
+		cout<<" "<<endl;
+}
+	
+void menuusuario()
+{
+	int opcion;
+	 system("cls");
+	cout<<"----MENU DE USUARIO----"<<endl;
+	cout<<"1.- CREAR ARCHIVO USUARIO"<<endl;
+	cout<<"2.- MOSTRAR ARCHIVO USUARIO"<<endl;
+	cout<<"3.- AÑADIR USUARIO"<<endl;
+	cout<<"4.- ELIMINAR USUARIO"<<endl;
+	cout<<"5.- MODIFICAR USUARIO"<<endl;
+	cout<<"0.- SALIR"<<endl;
+	cin>>opcion;
+	do{
+		switch(opcion)
+		{
+			case 1:	creararchivousuario("usuario.dat");
+				system("pause");
+				system("cls");
+					break;
+	
+	
+			case 2:	reporteusuario();
+					system("pause");
+					system("cls");
+					break;
+	
+	
+			case 3: añadirusuario();
+					system("pause");
+					system("cls");
+					break;
+
+　
+			case 4: eliminarusuario();
+					system("pause");
+					system("cls");
+					break;
+			
+			case 5: modificarusuario();
+					system("pause");
+					system("cls");
+					break;
+
+　
+			case 0:cout<<"SALIR"<<endl;
+				system("pause");
+				system("cls");
+				
+					break;
+
+	default: cout<<"opcion invalida"<<endl;
+			 system("cls");
+	}
+	}while(opcion!=0);
+	system("cls");
+}
+
+//MENU PRINCIPAL
+void main()
+{
+	int opcion;
+
+	cout<<"--------BIENVENIDO A SERVI-AGENDA--------"<<endl;
+	cout<<"1.-Servicio de Gastronomia"<<endl;
+	cout<<"2.-Servicio de Mecanica en gral"<<endl;
+	cout<<"3.-Servicio de Farmacias"<<endl;
+	cout<<"4.-Servicio de conductores designados"<<endl;
+	cout<<"5.-Servicio de transporte publico"<<endl;
+	cout<<"6.-Registrarse (USUARIO)"<<endl;
+	cout<<"0.- SALIR"<<endl;
+	cin>>opcion;
+	do{
+
+	switch(opcion)
+	{
+	case 1: menugastronomia();
+			system("pause");
+			system("cls");
+			break;
+
+	case 2: menumecanica();
+			system("pause");
+			system("cls");
+			break;
+	
+	case 3: menufarmacia();
+			system("pause");
+			system("cls");
+			break;
+
+	case 4:	menuconductordesignado();
+			system("pause");
+			system("cls");
+			break;
+
+	case 5: menutransportepublico();
+			system("pause");
+			system("cls");
+			break;
+
+	case 6: menuusuario();
+			system("pause");
+			system("cls");
+			break;
+
+	case 0: cout<<"SALIR"<<endl;
+			system("pause");
+			system("cls");
+			break;
+
+	default: cout<<"opcion invalida"<<endl;
+			system("cls");
+	}
+	} while(opcion!=0);
+	 system("cls");
+
+　
+　
+	getch();
+}
+
+　
